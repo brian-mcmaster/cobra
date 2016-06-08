@@ -165,7 +165,8 @@ namespace Ldtpd
                 {
                     throw new XmlRpcFaultException(123, "Object state is disabled");
                 }
-                elementItem = utils.GetObjectHandle(childHandle, "Open", type, true);
+                // find the Open button, but use '*' as the caption since it gets localized on different OS's
+                elementItem = utils.GetObjectHandle(childHandle, "*", type, true);
                 LogMessage("elementItem: " + elementItem.Current.Name +
                                     " - " + elementItem.Current.ControlType.ProgrammaticName);
                 if (childHandle.TryGetCurrentPattern(ExpandCollapsePattern.Pattern,
@@ -205,7 +206,8 @@ namespace Ldtpd
                             case "Show":
                             case "Select":
                             case "Verify":
-                                elementItem = utils.GetObjectHandle(childHandle, "Open",
+                                // find the Open button, but use '*' as the caption since it gets localized on different OS's
+                                elementItem = utils.GetObjectHandle(childHandle, "*",
                                     type, !verify);
                                 if (invokePattern != null || (elementItem != null &&
                                     elementItem.TryGetCurrentPattern(InvokePattern.Pattern,
@@ -236,7 +238,8 @@ namespace Ldtpd
                             case "GetComboValue":
                                 Object selectionPattern = null;
                                 LogMessage("GetComboValue");
-                                elementItem = utils.GetObjectHandle(childHandle, "Open",
+                                // find the Open button, but use '*' as the caption since it gets localized on different OS's
+                                elementItem = utils.GetObjectHandle(childHandle, "*",
                                     type, true);
                                 if (invokePattern != null || (elementItem != null &&
                                     elementItem.TryGetCurrentPattern(InvokePattern.Pattern,
@@ -296,7 +299,8 @@ namespace Ldtpd
                                 Hashtable objectHT = new Hashtable();
                                 ArrayList tmpChildList = new ArrayList();
                                 InternalTreeWalker w = new InternalTreeWalker();
-                                elementItem = utils.GetObjectHandle(childHandle, "Open",
+                                // find the Open button, but use '*' as the caption since it gets localized on different OS's
+                                elementItem = utils.GetObjectHandle(childHandle, "*",
                                     type, true);
                                 // Changes based on QT 5.0.2
                                 if (invokePattern != null || (elementItem != null &&
@@ -327,7 +331,7 @@ namespace Ldtpd
                                     propertyHT = (Hashtable)objectHT[key];
                                     string className = (string)propertyHT["class"];
                                     if (className != null &&
-                                        className.Contains("list_item"))
+                                        propertyHT["control_type"] == ControlType.ListItem)
                                         // Add only list items
                                         childList.Add(propertyHT["label"]);
                                 }
